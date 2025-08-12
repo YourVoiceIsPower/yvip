@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Voice is Power - Calling Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        h1 {
+            font-family: 'Anton', sans-serif;
+            letter-spacing: 1.5px;
+        }
+        /* Palestinian Flag Colors */
+        .pal-red-bg { background-color: #EE2A35; }
+        .pal-green-bg { background-color: #009736; }
+        .pal-black-text { color: #000000; }
+        .pal-red-text { color: #EE2A35; }
+        .pal-green-text { color: #009736; }
+        .pal-green-border { border-color: #009736; }
+        .pal-green-bg-light { background-color: rgba(0, 151, 54, 0.05); }
+        
+        .header-flag {
+            display: flex;
+            height: 12px;
+        }
+        .header-flag > div {
+            flex-grow: 1;
+        }
+        .highlight {
+            background-color: #e8f5e9; /* A light green */
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        .demand-highlight {
+            background-color: #f5f5f5; /* A light gray */
+            padding: 12px;
+            border-left: 4px solid #009736; /* Green accent */
+            border-radius: 4px;
+            margin-top: 8px;
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-4xl mx-auto bg-white rounded-xl shadow-2xl overflow-hidden">
+        <div class="header-flag">
+            <div class="pal-red-bg"></div>
+            <div style="background-color: #FFFFFF;"></div>
+            <div class="pal-green-bg"></div>
+            <div style="background-color: #000000;"></div>
+        </div>
+        <div class="p-6 md:p-8">
+            <header class="text-center mb-6">
+                <h1 class="text-5xl md:text-6xl font-bold pal-black-text uppercase">Your Voice is Power</h1>
+                <p class="text-gray-600 mt-3">Follow the steps to generate your call script.</p>
+            </header>
+
+            <!-- Step 1: Target Selection -->
+            <div class="mb-6">
+                 <label class="block text-sm font-medium text-gray-700 mb-2 text-center">Who do you want to call?</label>
+                 <div class="flex justify-center gap-4">
+                    <button id="btn-local" class="flex-1 bg-green-600 text-white font-bold py-2 px-4 rounded-lg">Local Officials</button>
+                    <button id="btn-federal" class="flex-1 bg-gray-200 text-gray-700 font-bold py-2 px-4 rounded-lg">Federal Officials</button>
+                 </div>
+            </div>
+
+            <!-- Step 2: Selections -->
+            <div class="flex flex-wrap gap-4 mb-8">
+                <!-- Local Selectors -->
+                <div id="county-container" class="flex-1 min-w-[200px]">
+                    <label for="county-select" class="block text-sm font-medium text-gray-700 mb-1">1. County/City:</label>
+                    <select id="county-select" class="w-full p-3 border-2 border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                        <option value="">-- Choose your area --</option>
+                        <option value="arlington">Arlington County</option>
+                        <option value="alexandria">City of Alexandria</option>
+                        <option value="cityoffairfax">City of Fairfax</option>
+                        <option value="manassas">City of Manassas</option>
+                        <option value="manassaspark">City of Manassas Park</option>
+                        <option value="fairfax">Fairfax County</option>
+                        <option value="fallschurch">Falls Church City</option>
+                        <option value="loudoun">Loudoun County</option>
+                        <option value="princewilliam">Prince William County</option>
+                    </select>
+                </div>
+                <div id="district-container" class="flex-1 min-w-[200px]" style="display: none;">
+                    <label for="district-select" class="block text-sm font-medium text-gray-700 mb-1">2. District:</label>
+                    <select id="district-select" class="w-full p-3 border-2 border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                    </select>
+                </div>
+
+                <!-- Federal Selectors -->
+                <div id="federal-container" class="flex-1 min-w-[200px]" style="display: none;">
+                    <label for="federal-select" class="block text-sm font-medium text-gray-700 mb-1">1. Federal Official:</label>
+                    <select id="federal-select" class="w-full p-3 border-2 border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                        <option value="">-- Choose an official --</option>
+                        <option value="kaine">Senator Tim Kaine</option>
+                        <option value="warner">Senator Mark Warner</option>
+                        <option value="house">U.S. House Representative</option>
+                    </select>
+                </div>
+                <div id="zip-container" class="flex-1 min-w-[200px]" style="display: none;">
+                    <label for="zip-input" class="block text-sm font-medium text-gray-700 mb-1">2. Your Zip Code:</label>
+                    <input type="text" id="zip-input" placeholder="e.g., 20176" class="w-full p-3 border-2 border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-green-500 focus:border-green-500" maxlength="5">
+                </div>
+
+                 <!-- Script Selector -->
+                 <div id="script-container" class="flex-1 min-w-[200px]" style="display: none;">
+                    <label for="script-select" class="block text-sm font-medium text-gray-700 mb-1">Final Step: Script</label>
+                    <select id="script-select" class="w-full p-3 border-2 border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                    </select>
+                </div>
+            </div>
+
+
+            <!-- Step 3: The Script -->
+            <div id="script-output" class="bg-white p-6 rounded-lg mt-8" style="display: none;">
+                <div class="text-center mb-4 border-b-2 border-gray-200 pb-4">
+                     <h2 class="text-xl font-bold">Call this number:</h2>
+                     <a id="call-this-number" href="#" class="text-3xl font-bold pal-green-text hover:underline"></a>
+                </div>
+                <div id="talking-points-container" class="mb-6" style="display: none;">
+                    <h3 class="text-lg font-bold mb-2 text-gray-800">Key Talking Points:</h3>
+                    <ul id="talking-points-list" class="list-disc list-inside text-gray-700 space-y-1">
+                    </ul>
+                </div>
+                <div class="space-y-4 text-lg border-t-2 border-gray-200 pt-4">
+                    <p><strong>CALLER:</strong></p>
+                    <p id="script-body" class="leading-relaxed"></p>
+                </div>
+            </div>
+             <div id="what-to-expect" class="text-left pal-green-bg-light border-l-4 pal-green-border text-green-800 p-4 rounded-lg mt-8">
+                <h3 class="font-bold">What to Expect When You Call</h3>
+                <ul class="list-disc list-inside mt-2 space-y-1 text-sm">
+                    <li><strong>You'll Speak to a Staff Member:</strong> You will almost always speak with a staff member or intern, not the official directly. This is normal and is the most effective way for your opinion to be recorded.</li>
+                    <li><strong>State Your Purpose Clearly:</strong> Begin by saying your name and where you live. Then, you can read the script you've generated. The staffer will listen and take note of your position.</li>
+                    <li><strong>Voicemail is Also Effective:</strong> If you reach a voicemail, leaving a message is just as powerful. State your name, where you live, and your message clearly. These messages are also tallied by staff.</li>
+                </ul>
+                <p class="mt-3 text-sm font-semibold"><span class="pal-red-text">Your Voice is Power.</span> Thank you for taking action.</p>
+            </div>
+            <div id="placeholder-message" class="text-center text-gray-500 py-8" style="display: none;">
+                <p>Your script will appear here once you make all selections.</p>
+            </div>
+        </div>
+        <footer class="bg-gray-50 p-4 text-center border-t">
+            <div class="max-w-3xl mx-auto text-xs text-gray-500">
+                <p class="font-bold mb-1">Privacy & Terms</p>
+                <p class="mb-2"><strong>Privacy Disclaimer:</strong> This tool is designed to protect your privacy. All selections you make (your location, chosen official, and script) happen entirely on your own device and are **never** sent to or stored on any server. We do not collect any personal information. The service that hosts this page may collect standard, anonymous web traffic data for analytics, such as your browser type and the time of your visit.</p>
+                <p><strong>Terms of Use:</strong> This tool is provided for informational and advocacy purposes only. The phone numbers and official names are provided as a public service and are subject to change. You are solely responsible for your conduct and the content of your conversation when using this tool to contact any official. Please be respectful and adhere to all applicable laws.</p>
+            </div>
+        </footer>
+    </div>
+    <!-- Signature -->
+    <!-- aKasH -->
+    <script>
+    (() => {
+        const officialsData = {
+            local: {
+                loudoun: { phone: "(703) 777-0204", districts: { "Algonkian": "Juli E. Briskman", "Ashburn": "Michael R. Turner", "Blue Ridge": "Laura A. TeKrony", "Catoctin": "Caleb A. Kershner", "Dulles": "Mathew F. Letourneau", "Leesburg": "Kristen C. Umstattd", "Little River": "Laura A. Gries", "Sterling": "Koran T. Saines", "At-Large": "Phyllis J. Randall (Chair)" } },
+                fairfax: { phone: "(703) 324-2321", districts: { "Braddock": "James R. Walkinshaw", "Dranesville": "Jimmy Bierman", "Franconia": "Rodney L. Lusk", "Hunter Mill": "Walter L. Alcorn", "Mason": "Andres F. Jimenez", "Mount Vernon": "Daniel G. Storck", "Providence": "Dalia A. Palchik", "Springfield": "Pat Herrity", "Sully": "Kathy L. Smith", "At-Large": "Jeffrey C. McKay (Chairman)" } },
+                princewilliam: { phone: "(703) 792-6600", districts: { "Brentsville": "Thomas T. Gordy", "Coles": "Yesli Vega", "Gainesville": "Robert Weir", "Neabsco": "Victor S. Angry", "Occoquan": "Kenny A. Boddye", "Potomac": "Andrea O. Bailey", "Woodbridge": "Margaret Angela Franklin", "At-Large": "Deshundra L. Jefferson (Chair)" } },
+                arlington: { phone: "(703) 228-3130", districts: { "At-Large": "the entire County Board" } },
+                alexandria: { phone: "(703) 746-4550", districts: { "At-Large": "the Mayor and all City Council members" } },
+                cityoffairfax: { phone: "(703) 385-7850", districts: { "At-Large": "the Mayor and all City Council members" } },
+                fallschurch: { phone: "(703) 248-5002", districts: { "At-Large": "the Mayor and all City Council members" } },
+                manassas: { phone: "(703) 257-8212", districts: { "At-Large": "the Mayor and all City Council members" } },
+                manassaspark: { phone: "(703) 335-8800", districts: { "At-Large": "the Mayor and all City Council members" } }
+            },
+            federal: {
+                kaine: { name: "Senator Tim Kaine", phone: "(202) 224-4024" },
+                warner: { name: "Senator Mark Warner", phone: "(202) 224-2023" },
+                house: {
+                    "201": { name: "Rep. Suhas Subramanyam (VA-10)", phone: "(202) 225-5136" }, 
+                    "220": { name: "the Office of Virginia's 11th District (Vacant)", phone: "(202) 224-3121" }, 
+                    "221": { name: "the Office of Virginia's 11th District (Vacant)", phone: "(202) 224-3121" }, 
+                    "222": { name: "Rep. Don Beyer (VA-08)", phone: "(202) 225-4376" }, 
+                    "223": { name: "Rep. Don Beyer (VA-08)", phone: "(202) 225-4376" }
+                }
+            }
+        };
+
+        const scriptsData = {
+            "the_right_to_a_future": { title: "The Right to a Future", talking_points: ["Every child in Gaza deserves the chance to grow up.", "The destruction of schools and universities is the destruction of their future.", "Children are being killed at an unprecedented, horrifying rate.", "A child's life in Gaza is as valuable as a child's life anywhere.", "This is not a political issue; it's about protecting the most vulnerable."], body: "I'm calling because I can't remain silent while the children of Gaza are being denied the basic right to a future.<br><br>The number of children killed is staggering, and it's a direct result of the ongoing violence. Beyond the immediate death toll, the complete destruction of their schools and universities is a deliberate attack on their ability to ever rebuild their lives.<br><br>I believe that a child's life in Gaza is just as precious as a child's life here in our community, and our government's actions are not reflecting that fundamental truth.", local_cta: "I am asking <span class='highlight'>%%OFFICIAL_NAME%%</span> to please stand up for the children of Gaza. Please, make a public statement demanding a ceasefire to protect their right to live and have a future.", federal_cta: "I am demanding that <span class='highlight'>%%OFFICIAL_NAME%%</span> vote against any further military aid that fuels this war on Gaza's children. Please, use your power to push for an immediate ceasefire." },
+            "a_parent_s_perspective": { title: "A Parent's Perspective", talking_points: ["Parents in Gaza face the unimaginable horror of not being able to protect their children.", "They are writing their children's names on their bodies so they can be identified.", "Families are being wiped out from the civil registry, entire bloodlines erased.", "The bond between a parent and child is sacred and is being systematically destroyed.", "Our community must stand in solidarity with the families of Gaza."], body: "I'm calling to speak on behalf of the parents in Gaza. I simply cannot imagine the horror of not being able to keep my children safe from bombs.<br><br>I've seen reports that parents in Gaza are writing their children's names on their arms and legs, just so their bodies can be identified if they're killed. The fact that this is their reality is an indictment of the world's inaction.<br><br>Entire family lines are being erased from existence. This isn't just a war; it's the destruction of the very fabric of their society.", local_cta: "I am urging <span class='highlight'>%%OFFICIAL_NAME%%</span> to speak for the families being torn apart. Please, demand an immediate ceasefire to stop the slaughter of families in Gaza.", federal_cta: "I am demanding that <span class='highlight'>%%OFFICIAL_NAME%%</span> support legislation that protects civilians and families in Gaza. Please, use your vote and your voice to demand an immediate ceasefire." },
+            "the_grandparents_grief": { title: "The Grandparent's Grief", talking_points: ["Grandparents in Gaza are watching their entire lineage be wiped out.", "The loss of a grandchild is an unbearable, unnatural tragedy.", "These elders are the keepers of family history and stories, which are now being lost.", "They are losing the homes they have lived in for generations.", "Our society should honor and protect its elders, everywhere."], body: "I'm calling today thinking about the grandparents in Gaza. I can't imagine the pain of watching your children and your grandchildren be killed, seeing your entire family line disappear in a flash.<br><br>These are the elders, the keepers of stories and history, and they are being left with nothing. They are losing the homes they've lived in their entire lives and the family they built.", local_cta: "I am asking <span class='highlight'>%%OFFICIAL_NAME%%</span> to stand for the dignity of elders and the sanctity of family. Please, introduce a resolution demanding a ceasefire to protect the remaining families in Gaza.", federal_cta: "I am asking <span class='highlight'>%%OFFICIAL_NAME%%</span> to honor the elders of Gaza by using your influence to stop this war. Please, push for an immediate diplomatic solution and a ceasefire." },
+            "starvation_as_a_weapon": { title: "Starvation as a Weapon", talking_points: ["The deliberate withholding of food and water is a war crime.", "Children in Gaza are now dying from malnutrition and dehydration.", "Humanitarian aid trucks are being blocked while a population starves.", "This is a man-made famine, not a natural disaster.", "Access to food is a basic human right being denied."], body: "I'm calling because I am horrified by the use of starvation as a weapon of war against the people of Gaza.<br><br>We are seeing clear evidence that this is a man-made famine, caused by Israel's siege. Children are beginning to die from malnutrition, which is something I never thought I'd see happen with the world watching.<br><br>Humanitarian aid is being intentionally blocked from entry. This isn't a logistical problem; it is a deliberate policy of collective punishment.", local_cta: "I am demanding that <span class='highlight'>%%OFFICIAL_NAME%%</span> publicly condemn the use of starvation as a weapon of war. Please, call for a ceasefire and the immediate, unimpeded flow of humanitarian aid into Gaza.", federal_cta: "I demand that <span class='highlight'>%%OFFICIAL_NAME%%</span> use your power to pressure the administration to ensure Israel allows unimpeded aid into Gaza. Please, sponsor legislation to hold those responsible for this war crime accountable and demand a ceasefire." },
+            "healthcare_collapse": { title: "The Healthcare Collapse", talking_points: ["Hospitals are supposed to be safe havens, yet they are being repeatedly targeted.", "Doctors and nurses are being killed while trying to save lives.", "Patients, including newborns in incubators, are dying due to lack of power and supplies.", "Performing surgery without anesthesia is a reality in Gaza.", "This is a war on the very concept of medical neutrality."], body: "I'm calling to express my outrage over the systematic destruction of the healthcare system in Gaza by the Israeli military.<br><br>Hospitals are not supposed to be battlegrounds. The doctors, nurses, and paramedics there are heroes, and they are being killed for simply doing their jobs. We are hearing stories of surgeries being performed without anesthesia—it's a descent into barbarism.<br><br>The fact that this is happening with weapons and funding from our country is a source of deep shame.", local_cta: "I am urging <span class='highlight'>%%OFFICIAL_NAME%%</span> to stand up for medical neutrality and the sanctity of life. Please, demand an end to the attacks on hospitals and call for an immediate ceasefire in Gaza.", federal_cta: "I demand that <span class='highlight'>%%OFFICIAL_NAME%%</span> call for an investigation into the attacks on Gaza's hospitals and vote against any funding that supports these war crimes. Please, demand an immediate ceasefire." },
+            "a_world_without_water": { title: "A World Without Water", talking_points: ["Access to clean drinking water has been almost entirely cut off in Gaza.", "People are being forced to drink contaminated water, leading to widespread disease.", "The destruction of water infrastructure is a deliberate act of war.", "Water is life; denying it is a death sentence.", "This is a public health catastrophe in the making."], body: "I'm calling about the water crisis in Gaza. It’s horrifying to know that over two million people have almost no access to clean drinking water because Israel has destroyed the infrastructure.<br><br>People are being forced to drink contaminated water, and diseases like cholera are spreading rapidly. This isn't an accident; the water infrastructure has been targeted.<br><br>Denying people water is a death sentence.", local_cta: "I am asking <span class='highlight'>%%OFFICIAL_NAME%%</span> to speak out against this humanitarian crisis. Please, demand a ceasefire and the immediate restoration of clean water access for the people of Gaza.", federal_cta: "I am demanding that <span class='highlight'>%%OFFICIAL_NAME%%</span> support funding to rebuild Gaza's water infrastructure. Please, condemn the deliberate targeting of these resources and demand a ceasefire." },
+            "upholding_the_rule_of_law": { title: "Upholding the Rule of Law", talking_points: ["The actions in Gaza are being investigated as a plausible genocide by the ICJ.", "The U.S. government's dismissal of international law is dangerous.", "Collective punishment of a civilian population is a war crime.", "If laws don't apply to everyone, they apply to no one.", "Our community must stand for a world governed by laws, not by force."], body: "I'm calling because I believe in the rule of law, and I am watching it be completely dismantled in Gaza.<br><br>The highest court in the world, the ICJ, has said there is a plausible case of genocide happening. Yet, our government continues to provide the weapons and diplomatic cover for these actions. This is an attack on the entire system of international law.<br><br>The collective punishment of over two million people is a clear violation of the Geneva Conventions. If these laws are not upheld, then we are all less safe.", local_cta: "I am asking <span class='highlight'>%%OFFICIAL_NAME%%</span> to be a voice for the rule of law. Please, publicly support the ICJ's investigation and demand a ceasefire in Gaza in accordance with international law.", federal_cta: "I demand that <span class='highlight'>%%OFFICIAL_NAME%%</span> publicly accept the ICJ's rulings and push for U.S. policy to align with them. Please, stop undermining international law and demand a ceasefire in Gaza." },
+            "forcible_transfer_crime": { title: "The Crime of Forcible Transfer", talking_points: ["Forcibly displacing over 1.9 million people is a war crime.", "People in Gaza have been told to move from one 'safe zone' to another, only to be bombed there.", "There is no safe place in Gaza.", "This is a transparent attempt at ethnic cleansing.", "Our country should not be complicit in the forced displacement of a population."], body: "I am calling about the war crime of forcible transfer that is happening to the people of Gaza.<br><br>Nearly two million people have been driven from their homes by Israeli military orders. They are told to flee to so-called 'safe zones,' only to be bombed once they get there. It's a cruel and cynical tactic.<br><br>It is clear to anyone watching that this is not just about military objectives; it is an attempt to permanently remove people from their land. That is the definition of ethnic cleansing.", local_cta: "I am demanding that <span class='highlight'>%%OFFICIAL_NAME%%</span> condemn this act of forcible transfer. Please, call for an immediate ceasefire and the right of the people of Gaza to return to their homes.", federal_cta: "I demand that <span class='highlight'>%%OFFICIAL_NAME%%</span> introduce legislation to sanction those responsible for the ethnic cleansing in Gaza. Please, demand a ceasefire and the right of return for all displaced people." },
+            "targeting_journalists": { title: "Targeting Journalists", talking_points: ["A record number of journalists have been killed in Gaza, more than in any other modern conflict.", "These killings appear to be systematic and targeted.", "Killing journalists is a war crime and an attack on the truth.", "They are the world's eyes and ears on the ground.", "Without a free press, there is no accountability."], body: "I'm calling to express my horror at the targeted killing of journalists in Gaza by the Israeli military.<br><br>These reporters are risking their lives to show the world the truth, and they are being silenced. This is a deliberate strategy to control the narrative and hide the extent of the atrocities.<br><br>Killing journalists is a war crime, and it's an attack on the truth itself.", local_cta: "I am asking <span class='highlight'>%%OFFICIAL_NAME%%</span> to stand for the freedom of the press and the protection of journalists. Please, demand a ceasefire and an independent investigation into the killing of journalists in Gaza.", federal_cta: "I demand that <span class='highlight'>%%OFFICIAL_NAME%%</span> call for an independent, international investigation into the targeted killing of journalists in Gaza and support protections for the press. Please, demand a ceasefire." },
+            "shared_humanity": { title: "Recognizing Shared Humanity", talking_points: ["The people of Gaza are not numbers; they are human beings with dreams and families.", "Dehumanizing language is being used to justify atrocities.", "Their lives have the same value as ours.", "Solidarity requires us to speak up when another's humanity is denied.", "Our community must affirm the equal worth of all people."], body: "I'm calling because I feel a desperate need to affirm the humanity of the people of Gaza.<br><br>They are not just numbers in a death toll. They are teachers, artists, doctors, and children, just like us. The dehumanizing language used by Israeli officials to describe them is a classic tool to make atrocities seem acceptable, but they are not acceptable.<br><br>I believe their lives are just as valuable as mine or anyone else's in this community, and our government's actions are suggesting otherwise.", local_cta: "I am asking <span class='highlight'>%%OFFICIAL_NAME%%</span> to stand for our shared humanity. Please, make a public statement that affirms the value of Palestinian lives and demand an immediate ceasefire for Gaza.", federal_cta: "I demand that you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, use your platform to counter the dehumanizing rhetoric about Palestinians. Please, affirm their humanity and demand a ceasefire in Gaza." },
+            "erasure_of_culture": { title: "The Erasure of Culture", talking_points: ["Ancient mosques, churches, libraries, and archives in Gaza are being destroyed.", "This is an attempt to erase a people's history and identity.", "A people's culture is their soul; to destroy it is a form of genocide.", "Gaza is a place with a deep and rich history that is being turned to rubble.", "We have a responsibility to protect world heritage."], body: "I'm calling to express my horror at the destruction of Gaza's cultural heritage.<br><br>This isn't just about buildings. When ancient mosques, churches, and libraries are deliberately targeted by the Israeli military, it's an attempt to erase a people's entire history from the map. It's an effort to say 'you were never here.'<br><br>Gaza is not a blank slate; it's a place with a rich history that is being systematically destroyed. This is a form of cultural genocide.", local_cta: "I am urging <span class='highlight'>%%OFFICIAL_NAME%%</span> to speak out against this cultural destruction. Please, demand a ceasefire to protect the people and the irreplaceable history of Gaza.", federal_cta: "I demand that <span class='highlight'>%%OFFICIAL_NAME%%</span> support international efforts to protect and rebuild Gaza's cultural sites. Please, condemn this cultural genocide and demand a ceasefire." },
+            "dignity_of_the_dead": { title: "The Dignity of the Dead", talking_points: ["Mass graves are being discovered at hospitals in Gaza.", "People are being buried without proper rites, their bodies desecrated.", "The inability to mourn and bury loved ones with dignity is a profound cruelty.", "This shows a complete disregard for the sanctity of human life, even in death.", "Every person deserves to be laid to rest with respect."], body: "I'm calling because I am sickened by the reports of mass graves being found in Gaza, a direct result of Israel's attacks on hospitals.<br><br>The dead are being treated with such profound disrespect, buried in unmarked pits without their families even knowing. The inability for a family to mourn and bury their loved ones with dignity is a unique and horrific form of cruelty.<br><br>It shows a complete disregard for their humanity.", local_cta: "I am asking <span class='highlight'>%%OFFICIAL_NAME%%</span> to speak for the dignity of all people, living and dead. Please, demand a ceasefire and an investigation into these war crimes in Gaza.", federal_cta: "I demand that <span class='highlight'>%%OFFICIAL_NAME%%</span> call for an international forensic investigation into the mass graves in Gaza. Please, demand accountability for these war crimes and a ceasefire." },
+            "a_plea_from_a_teacher": { title: "The Educator's Plea", talking_points: ["The children of Gaza have had their safety obliterated.", "Their schools are rubble and their teachers have been killed.", "This is the theft of an entire generation's potential.", "Education is a fundamental right being denied.", "We must stand for the right of every child to learn in peace."], body: "I'm calling about the children of Gaza. I spend my days trying to create a safe and nurturing environment for my students, and it's unbearable to know that children just like them in Gaza have had that safety completely obliterated by Israel's bombardment. Their schools are rubble, their teachers have been killed, and their only classroom is one of terror and survival. This is the theft of an entire generation's potential.", local_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, on behalf of the children of Gaza, to demand a ceasefire so they can simply have a chance to learn and live without fear.", federal_cta: "I demand that you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, support funding to rebuild the schools in Gaza. Please, condemn the war on education and demand a ceasefire." },
+            "a_veteran_for_peace": { title: "A Veteran for Peace", talking_points: ["Indiscriminate bombing is a war crime, not a military strategy.", "Using U.S. weapons to kill civilians in Gaza dishonors our nation.", "True peace comes from justice, not from overwhelming force.", "This policy betrays the values I served to defend.", "Our leaders must advocate for diplomacy and peace."], body: "I served this country, and I know that the indiscriminate bombing of civilian populations is not a military strategy; it's a war crime. Using American-supplied weapons to destroy homes, hospitals, and refugee camps in Gaza is a gross misuse of our resources and a stain on our nation's honor. This is not what I served to defend. True peace is built on justice, not on rubble.", local_cta: "I am urging you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to honor the values I served to protect. Please, demand an end to the arms shipments that are fueling these war crimes and call for an immediate ceasefire in Gaza.", federal_cta: "I demand that you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, vote NO on any further military aid to Israel. Please, honor my service by advocating for peace and diplomacy, not endless war in Gaza. Call for a ceasefire." },
+            "a_taxpayer_s_objection": { title: "A Taxpayer's Objection", talking_points: ["My tax dollars are funding a genocide in Gaza.", "This is a catastrophic moral and financial investment.", "Our community has urgent needs that go unfunded.", "Our government's priorities are backward.", "I object to my money being used for war crimes."], body: "I am calling to formally object to the use of my tax dollars to fund the ongoing genocide in Gaza. It is unconscionable that while our own community has needs, my money is being sent to purchase bombs that are killing families and destroying a society. This is not a sound financial or moral investment. It is a catastrophic failure of our government's priorities.", local_cta: "I demand that you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, represent my interests by publicly calling for a halt to all military aid for this war and demanding an immediate ceasefire in Gaza.", federal_cta: "I demand that you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, vote against the federal budget that allocates billions to Israel's military. My tax dollars should not be used for the genocide in Gaza. Please, call for a ceasefire." },
+            "the_moral_failure": { title: "The Moral Failure", talking_points: ["Our country's leadership is making a choice to be complicit.", "Vetoing ceasefires at the UN is a moral failure.", "The ICJ has called this a plausible genocide.", "Silence is not a neutral position.", "Our community must demand moral courage from its leaders."], body: "I'm calling because I am witnessing a catastrophic moral failure on the part of our country's leadership. The decision to repeatedly veto ceasefire resolutions at the UN, to continue sending weapons, and to downplay the horrific death toll in Gaza is a choice. It is a choice to be complicit in what the world's highest court has called a plausible genocide. This is a dark chapter in our history, and silence is not a neutral position.", local_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to choose a different path. Please, be a voice of moral courage and demand an immediate, permanent ceasefire in Gaza.", federal_cta: "I demand that you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, publicly condemn the administration's vetoes of ceasefire resolutions at the UN. Please, show moral leadership and sponsor a resolution calling for an immediate ceasefire in Gaza." },
+            "the_destruction_of_hope": { title: "The Destruction of Hope", talking_points: ["This war is destroying the possibility of a dignified life in Gaza.", "Bombing homes destroys the past; bombing schools destroys the future.", "Blocking aid destroys the present.", "This is a war on hope itself.", "A ceasefire is the first step to restoring hope."], body: "I'm calling about the people of Gaza. Beyond the physical destruction, this war is destroying something less tangible but just as important: hope. When you bomb a family's home, you destroy their past. When you bomb their children's school, you destroy their future. When you block food and water, you destroy their present. This is a war on the very possibility of a dignified life. It is a war on hope itself.", local_cta: "I am pleading with you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to help restore a glimmer of hope. Please, demand a ceasefire so the people of Gaza can begin to imagine a future again.", federal_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to support a political solution that gives the people of Gaza a future. Please, demand a ceasefire as the first step toward a just and lasting peace." },
+            "a_call_for_consistency": { title: "A Call for Consistency", talking_points: ["Our government's hypocrisy on human rights is damaging.", "We condemn targeting civilians in some conflicts but support it in Gaza.", "This double standard erodes our global credibility.", "The people of Gaza are paying the price for our inconsistency.", "We must apply the same standard of human rights to everyone."], body: "I'm calling because our government's hypocrisy has become impossible to ignore. We rightly condemn the targeting of civilians in other conflicts, yet we actively support it in Gaza. We talk about international law, but only when it's convenient. This inconsistency makes our country look weak and untrustworthy on the world stage. The people of Gaza are paying the price for our double standards.", local_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to be a voice for a consistent and principled foreign policy. Please, demand that our government apply the same standard of human rights to Palestinians and call for a ceasefire in Gaza.", federal_cta: "I demand that you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, hold the administration accountable for its hypocrisy. Please, insist that the Leahy Law be enforced and call for an immediate ceasefire in Gaza." },
+            "the_destruction_of_norms": { title: "The Destruction of Norms", talking_points: ["This war is destroying international norms of conduct.", "If hospitals and schools are legitimate targets, nowhere is safe.", "The world becomes more dangerous for everyone when these rules are broken.", "Our government's complicity weakens global stability.", "We must act to restore these fundamental principles."], body: "I'm calling because Israel's war on Gaza is destroying more than just buildings; it's destroying the basic rules of conduct that keep the world from descending into chaos. If hospitals, schools, and refugee camps can be considered legitimate targets, then nowhere is safe for anyone, anywhere. Our government's support for these actions makes the entire world a more dangerous place.", local_cta: "I am urging you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to stand up for global stability and the protection of civilians. Please, demand a ceasefire in Gaza and a return to international law.", federal_cta: "I am urging you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to work to restore international norms. Please, support the ICJ and ICC and demand that our government stop enabling the violation of these norms in Gaza. Call for a ceasefire." },
+            "the_value_of_a_life": { title: "The Value of a Life", talking_points: ["Our government's actions imply that Palestinian lives are disposable.", "The casual dismissal of tens of thousands of deaths is horrifying.", "I believe every human life has equal worth.", "This is a fundamental principle our leaders are violating.", "We must demand our leaders act like every life matters."], body: "I'm calling with a simple question that I can't get out of my head: what is the value of a Palestinian life? Judging by our government's actions, the answer seems to be 'less than others.' The casual dismissal of tens of thousands of deaths in Gaza, the endless supply of weapons... it all points to a horrifying calculation that some lives are disposable. I refuse to accept that. I believe every life has equal worth.", local_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to affirm this basic principle. Please, make a public statement demanding a ceasefire to protect the precious and valuable lives of the people in Gaza.", federal_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to reflect the principle that all lives are equal in your votes. Please, vote against any action that devalues Palestinian lives and demand a ceasefire in Gaza." },
+            "the_unbearable_weight": { title: "The Unbearable Weight", talking_points: ["Knowing our government is complicit creates a moral burden.", "The feeling of being stained by these atrocities is real.", "This is not a distant issue; it affects our own conscience.", "We must act to cleanse our community's conscience.", "Speaking out is a moral necessity."], body: "I'm calling because I feel this unbearable weight on my conscience. Knowing that my government is complicit in the killing of thousands of innocent people in Gaza is a burden that's hard to carry every day. It feels like we are all stained by this. It's a heavy, dark feeling that doesn't go away. It's the feeling of complicity.", local_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to help lift this weight from our community. Please, take a stand, speak out, and demand a ceasefire for Gaza.", federal_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to represent the conscience of your constituents. Please, go on the record to condemn these atrocities and demand a ceasefire in Gaza." },
+            "the_civil_registry": { title: "The Civil Registry", talking_points: ["Entire multi-generational families in Gaza are being wiped out.", "Their names are being struck from the official civil registry.", "This is the literal erasure of a bloodline from history.", "It is a quiet, bureaucratic form of genocide.", "These are not just statistics; they are families."], body: "I read something that I can't stop thinking about: in Gaza, when an entire family is killed by an Israeli airstrike, their names are literally struck from the civil registry. It's the bureaucratic end to a bloodline. It's not just that they are killed; their entire existence is erased. This is a level of methodical destruction that is truly horrifying.", local_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to speak for the families being erased from history. Please, demand a ceasefire to stop the destruction of the Palestinian people in Gaza.", federal_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to publicly recognize the destruction of family lines in Gaza as an indicator of genocide. Please, demand a ceasefire to prevent this erasure." },
+            "the_doctors_oath": { title: "The Doctor's Oath", talking_points: ["The oath to 'do no harm' is universal.", "Our government is actively causing the greatest harm in Gaza.", "Doctors there are heroes working in a nightmare.", "We are letting them be slaughtered.", "We must stand with the medical community."], body: "I'm a healthcare professional. I took an oath to do no harm. But my government is actively causing the greatest harm imaginable to the people of Gaza by funding this war and blocking aid. It's a violation of everything I stand for. The doctors in Gaza are heroes, performing amputations without anesthesia, and we are letting them be slaughtered.", local_cta: "I am urging you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to stand in solidarity with the medical community and uphold the oath to do no harm by demanding an immediate ceasefire in Gaza.", federal_cta: "I am urging you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to call for special protections for medical personnel in Gaza and to demand a ceasefire so they can work without being targeted." },
+            "the_teacher_s_lesson": { title: "The Teacher's Lesson", talking_points: ["We teach children about fairness and empathy.", "Our government's actions in Gaza are a lesson in hypocrisy.", "How can we teach values we don't practice?", "We are failing the children of our own community with this example.", "Our leaders must be moral examples."], body: "I'm a teacher. Every day I teach my students about fairness, about empathy, about standing up for what's right. And every day, I feel like a hypocrite, because my own government is doing the exact opposite in Gaza. How do I explain to a child that the values we teach in the classroom are apparently optional for our own government? It's an impossible position.", local_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to help me teach a better lesson. Be an example of moral leadership and demand a ceasefire for the children of Gaza.", federal_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to be a moral leader for the next generation. Please, demonstrate our country's values by demanding a ceasefire in Gaza." },
+            "the_firefighter_s_code": { title: "The Firefighter's Code", talking_points: ["First responders run towards danger to save lives.", "In Gaza, the helpers are being targeted and killed.", "This is a war on the very idea of rescue.", "It's a level of depravity that is hard to comprehend.", "We must stand with the heroes."], body: "My job is to run into burning buildings to save people. But in Gaza, the people who do that job—the rescue workers—are being bombed. The ambulances are being bombed. It's a level of depravity that is hard to comprehend. It's a war on the helpers, on the very people who represent the best of humanity in the worst of times.", local_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to stand with the helpers, the rescuers, and the heroes. Demand a ceasefire so they can do their jobs and save lives in Gaza.", federal_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to demand protections for all first responders in Gaza. Please, condemn the attacks on them and demand a ceasefire." },
+            "the_librarian_s_archive": { title: "The Librarian's Archive", talking_points: ["Libraries and archives preserve a people's memory.", "The destruction of these sites in Gaza is an attempt to erase a people.", "This is a war on memory and history.", "It is a quiet but profoundly violent form of destruction.", "We must act to preserve the Palestinian story."], body: "I'm a librarian. I believe in preserving stories. But in Gaza, entire family histories, libraries, and cultural archives are being turned to dust. It's an attempt to erase a people's memory, to pretend they were never there. It is a quiet, but deeply violent, form of destruction. It's a war on memory itself.", local_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to help preserve the story of the Palestinian people. Please, demand a ceasefire to stop the cultural genocide in Gaza.", federal_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to support UNESCO's efforts to protect cultural heritage in Gaza. Please, demand a ceasefire to prevent the erasure of Palestinian history." },
+            "the_construction_worker_s_view": { title: "The Construction Worker's View", talking_points: ["It takes years to build a community.", "It takes seconds for a bomb to destroy it.", "Our taxes are paying for destruction, not construction.", "It's sickening to watch our work revered here and erased there.", "We must stand for building up, not tearing down."], body: "I build things for a living. It takes so long to build a house, a school, a community. And I watch on the news as everything in Gaza is destroyed in seconds. Decades of life, work, and love, gone. And my country is paying for the bombs. It makes me sick to my stomach to think that I build things up here, while my taxes help tear things down there.", local_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to stand for building, not destroying. Please, demand a ceasefire so the people of Gaza can begin to rebuild their lives.", federal_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to vote for reconstruction aid for Gaza, not more weapons. Please, demand a ceasefire so the rebuilding can begin." },
+            "the_gardener_s_grief": { title: "The Gardener's Grief", talking_points: ["Ancient olive trees in Gaza represent generations of life.", "The destruction of nature is the destruction of hope.", "These trees are sacred to the land and its people.", "This is a war on the land itself.", "We must stand for life and resilience."], body: "I find a lot of peace in my garden. I think about the ancient olive trees in Gaza, some of them hundreds of years old, that have been uprooted and destroyed. Those trees are sacred. They represent generations of life and resilience. To destroy them is to destroy hope. It's like ripping the heart out of the land.", local_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to stand for life and hope. Please, demand a ceasefire to stop the destruction of Gaza's land and its people.", federal_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to condemn the ecocide in Gaza. Please, demand a ceasefire to protect the ancient, sacred land of Palestine." },
+            "the_sounds_of_childhood": { title: "The Sounds of Childhood", talking_points: ["The only sounds in Gaza are bombs and drones.", "The sounds of children playing have been replaced by screams.", "This war is silencing a people's joy.", "Every child deserves to hear laughter, not explosions.", "We must help bring the sounds of normal life back."], body: "I was outside earlier and heard children laughing in a park, and it made me incredibly sad. Because the only sounds the children of Gaza hear are the buzzing of drones and the explosion of bombs. The sound of childhood—laughter, playing—has been replaced by the sound of terror. This is a war on the very experience of being a child.", local_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to help bring the sounds of childhood back. Please, demand a ceasefire so the children of Gaza can hear something other than war.", federal_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to fight for a future where the children of Gaza can play without fear. Please, use your power to demand a ceasefire." },
+            "the_human_cost": { title: "The Incalculable Human Cost", talking_points: ["The death toll in Gaza is not a statistic; it's a collection of individual human tragedies.", "Each number represents a person with a family, dreams, and a story.", "The scale of the killing is so vast it's hard to comprehend.", "Our focus must be on the human lives being extinguished.", "Our leaders must be reminded of the humanity behind the numbers."], body: "I'm calling because I'm struggling to comprehend the scale of human loss in Gaza. We hear numbers so large they become abstract—tens of thousands killed. But each one of those numbers was a person. A child who loved to play. A mother. A father. A poet. A baker. An entire universe of stories and dreams has been extinguished with each life taken by Israeli bombs. This isn't a political calculation; it is a human catastrophe of almost unimaginable proportions.", local_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to please focus on the humanity behind the numbers. Honor the victims by using your public platform to demand an immediate ceasefire to stop the horrific human cost in Gaza.", federal_cta: "I am demanding that you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, stop treating the people of Gaza like statistics. Please, honor the victims by sponsoring legislation for a ceasefire and an end to the killing in Gaza." },
+            "the_chef_s_outrage": { title: "The Chef's Outrage", talking_points: ["Feeding people is an act of love.", "Using starvation as a weapon is a special kind of evil.", "Bakeries and flour are being targeted in Gaza.", "This is an attack on the most fundamental act of care.", "This is a war crime, plain and simple."], body: "I'm a chef. To me, feeding people is an act of love. The fact that an entire population in Gaza is being intentionally starved, that flour is being weaponized, that bakeries are being targeted... it's a special kind of evil. It's an attack on the most fundamental act of care, on the bond between a mother and her child. It's a war crime, plain and simple.", local_cta: "I am urging you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to condemn the use of starvation as a tool of war. Please, demand a ceasefire and that the people of Gaza be allowed to eat.", federal_cta: "I am urging you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to demand that the administration airdrop food and aid to Gaza. Please, condemn the war crime of starvation and demand a ceasefire." },
+            "the_bus_driver_s_route": { title: "The Bus Driver's Route", talking_points: ["Everyday life has been obliterated in Gaza.", "Neighborhoods and communities have been turned to rubble.", "The people of Gaza are just like us, with daily routines.", "Our government is helping to destroy this normalcy.", "We must stand for the right to a normal life."], body: "I drive the same route every day. I see the same people, the same neighborhoods. I can't imagine my route being just... gone. Rubble. I can't imagine the streets I know so well being filled with bodies. But that is the reality in Gaza. And we are helping it happen. It's hard to do my job knowing that.", local_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to think of the everyday life that has been obliterated in Gaza. Please, demand a ceasefire so people can have their neighborhoods back.", federal_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to support a future where the people of Gaza can know the simple peace of a daily routine. Please, demand a ceasefire." },
+            "the_retail_worker_s_plea": { title: "The Retail Worker's Plea", talking_points: ["The people of Gaza are ordinary people, just like us.", "They just want to live and keep their families safe.", "Our government's actions are preventing that.", "We have forgotten their humanity.", "We must stand up for them."], body: "I work in retail. I see hundreds of people a day. We're all just trying to get by, to care for our families. And I know that the people of Gaza are no different. They just want to live. They just want their kids to be safe. It's that simple. And our government is preventing that. It feels like we've forgotten that they are people, just like us.", local_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to stand up for the ordinary people of Gaza. Please, demand a ceasefire so they can have a chance at a normal life.", federal_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to remember that the people of Gaza are not a political issue; they are human beings. Please, demand a ceasefire so they can live." },
+            "the_it_professional_s_disconnect": { title: "The IT Professional's Disconnect", talking_points: ["We are watching a genocide broadcast in real time.", "Our leaders pretend they don't see what we see.", "This disconnect between reality and policy is maddening.", "Technology connects us, but our leaders are indifferent.", "We must close the gap between knowledge and action."], body: "I work with technology that connects the world. But I see it being used to broadcast a genocide from Gaza in real time, while our leaders pretend they don't see it. The disconnect is maddening. We are more connected than ever, and yet our leaders seem more indifferent than ever. It's a failure of the system.", local_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to close the disconnect between technology and morality. Acknowledge what we are all seeing in Gaza and demand a ceasefire.", federal_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to act on the information we all have. The evidence of war crimes in Gaza is overwhelming. Please, demand a ceasefire." },
+            "the_lawyer_s_case": { title: "The Lawyer's Case", talking_points: ["The case at the ICJ against Israel is overwhelming.", "Our government is acting as an accomplice to war crimes.", "This makes a mockery of the international legal system.", "We must uphold the rule of law.", "Our leaders must support the ICJ's rulings."], body: "I'm a lawyer. The case against Israel's actions in Gaza at the ICJ is clear and overwhelming. They are committing war crimes with impunity. And our government is acting as their accomplice, providing the weapons and the diplomatic cover. This is a legal and moral travesty. It makes a mockery of the entire international legal system we claim to support.", local_cta: "I am urging you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to uphold the rule of law and publicly support the ICJ's rulings. Demand a ceasefire in Gaza in accordance with international law.", federal_cta: "I am urging you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to co-sponsor a resolution affirming our country's support for the ICJ and its investigation into the genocide in Gaza. Please, demand a ceasefire." },
+            "the_social_worker_s_burden": { title: "The Social Worker's Burden", talking_points: ["Gaza is experiencing a societal collapse.", "We are witnessing the infliction of generational trauma.", "The psychological wounds may never heal.", "Our country is contributing to this crisis.", "We must act to prevent further social breakdown."], body: "I'm a social worker. My job is to help people in crisis. And I am watching an entire society in Gaza be pushed beyond the breaking point by Israel's actions. The trauma, the loss, the despair... it is a level of societal collapse that is hard to fathom. And we are contributing to it. The IOF is inflicting generational trauma that may never heal.", local_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to think of the social fabric that is being shredded in Gaza. Please, demand a ceasefire to prevent further societal collapse.", federal_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to support funding for trauma and mental health services for the people of Gaza. Please, demand a ceasefire to stop the infliction of more trauma." },
+            "the_dignity_of_work": { title: "The Dignity of Work", talking_points: ["Gaza's economy has been completely destroyed.", "Fishermen can't fish, farmers can't farm.", "The ability for people to provide for their families has been stolen.", "This creates a state of forced dependency.", "Every person has the right to dignified work."], body: "I'm calling to talk about the dignity of work. Israel's war has completely destroyed Gaza's economy. The fishermen can't fish, the farmers can't farm, the shopkeepers have no shops. The ability for people to provide for their own families has been stolen from them, creating a state of forced dependency. Every person deserves the dignity of providing for themselves.", local_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to stand for the dignity of work. Please, demand a ceasefire so the people of Gaza can begin to rebuild their economy and their lives.", federal_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to support economic aid for Gaza that is not dependent on Israel. Please, demand a ceasefire so the people of Gaza can regain their self-sufficiency." },
+            "the_immigrant_s_story": { title: "The Immigrant's Story", talking_points: ["My family knows what it's like to flee violence.", "The patterns of persecution in Gaza are chillingly familiar.", "America should be a refuge, not an enabler of oppression.", "We must stand with those who are being persecuted today.", "Our community should welcome the displaced, not create more."], body: "My family's story is one of fleeing violence to find safety here in America. Because of that, I recognize the patterns of persecution when I see them. The language of dehumanization, the forced displacement, the destruction of homes... this is the story of my own family, and it is the story of the Palestinians in Gaza right now. It is horrifying to see my new country helping to create the same conditions my family fled.", local_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to ensure America lives up to its promise as a refuge. Please, condemn the ethnic cleansing happening in Gaza and demand an immediate ceasefire.", federal_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to support refugee programs for Palestinians fleeing Gaza and to demand a ceasefire so that no more people are forced to flee their homes." },
+            "the_witness_to_injustice": { title: "The Witness to Injustice", talking_points: ["We are all witnesses to the atrocities in Gaza.", "Being a witness comes with a moral responsibility to act.", "We cannot pretend we do not know what is happening.", "History will ask what we did when we saw a genocide unfold.", "Our silence is a choice."], body: "I'm calling because in the age of the internet, we are all witnesses to what is happening in Gaza. We see the videos, we hear the firsthand accounts. We cannot pretend we don't know. And being a witness comes with a profound moral responsibility to not look away, and to not stay silent. To know what is happening and to do nothing is a choice, and it's a choice I cannot make.", local_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to fulfill your responsibility as a witness and as a leader. Please, use your public platform to condemn the genocide in Gaza and demand an immediate ceasefire.", federal_cta: "I am asking you, <span class='highlight'>%%OFFICIAL_NAME%%</span>, to enter the testimony of your constituents into the congressional record. We see a genocide in Gaza, and we demand that you act on our behalf and call for a ceasefire." },
+            "the_person_who_is_losing_hope": { title: "The Person Who is Losing Hope", talking_points: ["The political inaction is causing despair.", "It feels like power and money always win over human life.", "This call is an act of defiance against that despair.", "I need to believe my voice can still matter.", "Our leaders must give us a reason to hope."], body: "I'll be honest, I'm losing hope. I see the images from Gaza, I see the political inaction, and I start to believe that nothing will ever change. That power and money will always win over human life. I'm calling you today as a last resort, a small act of defiance against that despair. I need to believe that my voice can still matter.", local_cta: "Please, <span class='highlight'>%%OFFICIAL_NAME%%</span>, give me a reason to hope. Show me that a constituent's call can make a difference. Please, be a voice for peace and demand a ceasefire for Gaza.", federal_cta: "Please, <span class='highlight'>%%OFFICIAL_NAME%%</span>, restore my hope in our government. Take a concrete action—co-sponsor the Ceasefire Now resolution—and show me that you are listening to the people of your district who are horrified by the violence in Gaza." }
+        };
+
+        const countySelect = document.getElementById('county-select');
+        const districtContainer = document.getElementById('district-container');
+        const districtSelect = document.getElementById('district-select');
+        const scriptContainer = document.getElementById('script-container');
+        const scriptSelect = document.getElementById('script-select');
+        const scriptOutput = document.getElementById('script-output');
+        const whatToExpect = document.getElementById('what-to-expect');
+        const placeholderMessage = document.getElementById('placeholder-message');
+        const callThisNumber = document.getElementById('call-this-number');
+        const scriptBody = document.getElementById('script-body');
+        const talkingPointsContainer = document.getElementById('talking-points-container');
+        const talkingPointsList = document.getElementById('talking-points-list');
+        const btnLocal = document.getElementById('btn-local');
+        const btnFederal = document.getElementById('btn-federal');
+        const countyContainer = document.getElementById('county-container');
+        const federalContainer = document.getElementById('federal-container');
+        const federalSelect = document.getElementById('federal-select');
+        const zipContainer = document.getElementById('zip-container');
+        const zipInput = document.getElementById('zip-input');
+
+        let currentMode = 'local';
+
+        function populateScripts() {
+            scriptSelect.innerHTML = '<option value="">-- Choose a script type --</option>';
+            for (const key in scriptsData) {
+                const option = document.createElement('option');
+                option.value = key;
+                option.textContent = scriptsData[key].title;
+                scriptSelect.appendChild(option);
+            }
+        }
+
+        function resetSelections() {
+            countySelect.value = '';
+            districtSelect.innerHTML = '';
+            districtContainer.style.display = 'none';
+            federalSelect.value = '';
+            zipInput.value = '';
+            zipContainer.style.display = 'none';
+            scriptContainer.style.display = 'none';
+            scriptSelect.value = '';
+            scriptOutput.style.display = 'none';
+            whatToExpect.style.display = 'block';
+            placeholderMessage.style.display = 'none';
+        }
+
+        btnLocal.addEventListener('click', () => {
+            currentMode = 'local';
+            btnLocal.classList.remove('bg-gray-200', 'text-gray-700');
+            btnLocal.classList.add('bg-green-600', 'text-white');
+            btnFederal.classList.remove('bg-green-600', 'text-white');
+            btnFederal.classList.add('bg-gray-200', 'text-gray-700');
+            countyContainer.style.display = 'block';
+            federalContainer.style.display = 'none';
+            zipContainer.style.display = 'none';
+            resetSelections();
+        });
+
+        btnFederal.addEventListener('click', () => {
+            currentMode = 'federal';
+            btnFederal.classList.remove('bg-gray-200', 'text-gray-700');
+            btnFederal.classList.add('bg-green-600', 'text-white');
+            btnLocal.classList.remove('bg-green-600', 'text-white');
+            btnLocal.classList.add('bg-gray-200', 'text-gray-700');
+            countyContainer.style.display = 'none';
+            districtContainer.style.display = 'none';
+            federalContainer.style.display = 'block';
+            resetSelections();
+        });
+
+        function checkAndupdateView() {
+            const scriptKey = scriptSelect.value;
+            let isReady = false;
+
+            if (currentMode === 'local') {
+                const county = countySelect.value;
+                const district = districtSelect.value;
+                const isAtLarge = officialsData.local[county] && Object.keys(officialsData.local[county].districts).length === 1;
+                if (county && (district || isAtLarge)) {
+                    scriptContainer.style.display = 'block';
+                    if (scriptKey) isReady = true;
+                } else {
+                    scriptContainer.style.display = 'none';
+                }
+            } else { // federal
+                const official = federalSelect.value;
+                const zip = zipInput.value;
+                if (official === 'house') {
+                    zipContainer.style.display = 'block';
+                     if (zip.length === 5) {
+                        scriptContainer.style.display = 'block';
+                        if (scriptKey) isReady = true;
+                    } else {
+                        scriptContainer.style.display = 'none';
+                    }
+                } else if (official) {
+                    zipContainer.style.display = 'none';
+                    scriptContainer.style.display = 'block';
+                    if (scriptKey) isReady = true;
+                } else {
+                    zipContainer.style.display = 'none';
+                    scriptContainer.style.display = 'none';
+                }
+            }
+
+            if (isReady) {
+                 updateScript();
+            } else {
+                scriptOutput.style.display = 'none';
+                whatToExpect.style.display = 'none';
+                placeholderMessage.style.display = 'block';
+            }
+        }
+
+        countySelect.addEventListener('change', (e) => {
+            whatToExpect.style.display = 'none';
+            placeholderMessage.style.display = 'block';
+            const county = e.target.value;
+            districtSelect.innerHTML = '<option value="">-- Choose your district --</option>';
+            
+            if (!county) {
+                districtContainer.style.display = 'none';
+                checkAndupdateView();
+                return;
+            }
+
+            const data = officialsData.local[county];
+            const districts = Object.keys(data.districts);
+
+            if (districts.length === 1 && districts[0] === 'At-Large') {
+                districtContainer.style.display = 'none';
+                districtSelect.innerHTML = '<option value="At-Large">At-Large</option>';
+                districtSelect.value = 'At-Large';
+            } else {
+                districts.forEach(district => {
+                    const option = document.createElement('option');
+                    option.value = district;
+                    option.textContent = district;
+                    districtSelect.appendChild(option);
+                });
+                districtContainer.style.display = 'block';
+            }
+            checkAndupdateView();
+        });
+        
+        districtSelect.addEventListener('change', () => { whatToExpect.style.display = 'none'; placeholderMessage.style.display = 'block'; checkAndupdateView(); });
+        federalSelect.addEventListener('change', () => { whatToExpect.style.display = 'none'; placeholderMessage.style.display = 'block'; checkAndupdateView(); });
+        zipInput.addEventListener('input', () => { whatToExpect.style.display = 'none'; placeholderMessage.style.display = 'block'; checkAndupdateView(); });
+        scriptSelect.addEventListener('change', () => { whatToExpect.style.display = 'none'; placeholderMessage.style.display = 'block'; checkAndupdateView(); });
+
+        function updateScript() {
+            const scriptKey = scriptSelect.value;
+            const scriptData = scriptsData[scriptKey];
+            if (!scriptData) return;
+            
+            let officialName, phone, locationIdentifier, intro;
+            let body, cta;
+
+            if (currentMode === 'local') {
+                const county = countySelect.value;
+                const district = districtSelect.value;
+                const countyData = officialsData.local[county];
+                officialName = countyData.districts[district];
+                phone = countyData.phone;
+                locationIdentifier = district === 'At-Large' ? countySelect.options[countySelect.selectedIndex].text : `${district} District`;
+                intro = `Hello, my name is <span class='highlight'>[Your Name]</span>, and I live in <span class='highlight'>${locationIdentifier}</span>.`;
+                body = scriptData.body;
+                cta = scriptData.local_cta;
+            } else { // federal
+                const officialKey = federalSelect.value;
+                locationIdentifier = "your district"; // Federal reps don't use county districts
+                if (officialKey === 'house') {
+                    const zipPrefix = zipInput.value.substring(0, 3);
+                    const repData = officialsData.federal.house[zipPrefix] || {name: "Your Representative", phone: "(202) 224-3121"};
+                    officialName = repData.name;
+                    phone = repData.phone;
+                } else {
+                    const senatorData = officialsData.federal[officialKey];
+                    officialName = senatorData.name;
+                    phone = senatorData.phone;
+                }
+                intro = "Hello, my name is <span class='highlight'>[Your Name]</span>, and I'm a constituent.";
+                body = scriptData.body;
+                cta = scriptData.federal_cta;
+            }
+            
+            // Update talking points
+            const points = scriptData.talking_points;
+            talkingPointsList.innerHTML = '';
+            if (points && points.length > 0) {
+                points.forEach(point => {
+                    const li = document.createElement('li');
+                    li.textContent = point;
+                    talkingPointsList.appendChild(li);
+                });
+                talkingPointsContainer.style.display = 'block';
+            } else {
+                talkingPointsContainer.style.display = 'none';
+            }
+
+            // Update script body
+            let scriptTemplate = `${intro} ${body}<br><br><span class='demand-highlight'>${cta}</span>`;
+            scriptTemplate = scriptTemplate.replace(/%%LOCATION%%/g, locationIdentifier);
+            scriptTemplate = scriptTemplate.replace(/%%OFFICIAL_NAME%%/g, officialName);
+            
+            callThisNumber.href = `tel:${phone}`;
+            callThisNumber.textContent = phone;
+            scriptBody.innerHTML = scriptTemplate;
+            scriptOutput.style.display = 'block';
+            whatToExpect.style.display = 'none';
+            placeholderMessage.style.display = 'none';
+        }
+
+        // Initial population of script dropdown
+        populateScripts();
+        // Set initial state
+        btnLocal.click();
+
+    })();
+    </script>
+</body>
+</html>
